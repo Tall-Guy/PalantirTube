@@ -32,7 +32,9 @@ class SeleniumControl:
         
 # Same goes here.    
     def closeDriver(self):
+        print "Closing Driver"
         self.driver.close()
+        self.driver.quit()
 
 # Opens new tab in Chrome Selenium.
     def newTab(self):
