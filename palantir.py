@@ -16,7 +16,6 @@ class Palantir:
         searchTerms = []
         for x in gamelist:
             searchTerms.append(x)
-            continue
             searchTerms.append(x + " longplay")
             searchTerms.append(x + " gameplay")
             searchTerms.append(x + " review")
@@ -96,7 +95,7 @@ gamelist = gamelist + ["gigantic", "Overpower", "Paragon"]
 
 p = Palantir()
 searchterms = p.createSearchTerms(gamelist)
-numPages = 1
+numPages = 10
 
 start = time.time()
 i = 0.0
