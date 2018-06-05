@@ -15,15 +15,16 @@ class SeleniumControl:
         chrome_options = webdriver.ChromeOptions()
         chrome_options.add_argument('--proxy-server=%s' % proxy)   
         
-
-        self.driver = webdriver.Chrome(chrome_options=chrome_options)
+        self.driver = webdriver.Chrome('C:\\Users\\mrkon\\Documents\\WorkInProgress\\palantir-tube\\chromedriver.exe', chrome_options=chrome_options)
+        # self.driver = webdriver.Chrome(chrome_options=chrome_options)
  
  # Initialize the driver without proxy.
     def noProxy(self):
         if self.driver != None:
             self.closeDriver()
         chrome_options = webdriver.ChromeOptions()
-        self.driver = webdriver.Chrome(chrome_options=chrome_options)
+        self.driver = webdriver.Chrome('C:\\Users\\mrkon\\Documents\\WorkInProgress\\palantir-tube\\chromedriver.exe', chrome_options=chrome_options)
+        # self.driver = webdriver.Chrome(chrome_options=chrome_options)
  
 # I just like the name of my function better.
     def openUrl(self,url):
