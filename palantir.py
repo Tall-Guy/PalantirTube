@@ -44,11 +44,21 @@ class Palantir:
         self.s.openUrl(url)
 
         # Scrape links from first ten pages.
+        emptyPages = 0
+        limit = 2
         for z in range(numPages):
+            found = 0
             print "Page ", z + 1, " of ", numPages
             for x in self.getChannelLinks():
                 if not self.isOnList(x.get_attribute("href")):
+                    found = 1
                     self.saveLink(x.get_attribute("href"))
+            if found == 0:
+                emptyPages = emptyPages + 1
+                print "Empty - Strike ", emptyPages, " of ", limit
+                if emptyPages >= limit:
+                    print "Not worth continuing this search"
+                    break;
             
             self.nextPage()
             time.sleep(random.randint(5,6) + random.random())
