@@ -45,7 +45,7 @@ class Palantir:
 
         # Scrape links from first ten pages.
         emptyPages = 0
-        limit = 2
+        limit = 1
         for z in range(numPages):
             found = 0
             print "Page ", z + 1, " of ", numPages
