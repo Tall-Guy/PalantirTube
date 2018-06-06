@@ -12,18 +12,25 @@ class Palantir:
     
     
 # This is entirely optional and you can skip this.
-    def createSearchTerms(self,gamelist):
+    def createSearchTerms(self,game):
         searchTerms = []
-        for x in gamelist:
-            searchTerms.append(x)
-            searchTerms.append(x + " longplay")
-            searchTerms.append(x + " gameplay")
-            searchTerms.append(x + " review")
-            searchTerms.append(x + " let's play")
-            searchTerms.append(x + " walkthrough")
-            searchTerms.append(x + " pt1")
-            searchTerms.append(x + " part 1")
-            searchTerms.append(x + " quick look")
+        # game = game + " game"
+        searchTerms.append(game + " gameplay")
+        searchTerms.append(game + " top")
+        searchTerms.append(game + " analysis")
+        searchTerms.append(game + " best plays")
+        searchTerms.append(game + " review")
+        searchTerms.append(game + " first look")
+        searchTerms.append(game + " let's play")
+        searchTerms.append(game + " impressions")
+        searchTerms.append(game + " quick look")
+        # searchTerms.append(game)
+        # searchTerms.append(game + " longplay")
+        # searchTerms.append(game + " tutorial")
+        # searchTerms.append(game + " how to")
+        # searchTerms.append(game + " walkthrough")
+        # searchTerms.append(game + " pt1")
+        # searchTerms.append(game + " part 1")
         return searchTerms
             
        
@@ -85,6 +92,13 @@ class Palantir:
         if link in data:
             return True
         return False
+        
+    def numEntries(self):
+        f = open("data/YoutubeChannels.Oink",'r')
+        data = f.read().split("\n")
+        f.close()
+
+        return len(data)
             
 
 # This is the most important part.
@@ -94,26 +108,34 @@ class Palantir:
 # if you want two words together enclose them in \" \"
 # Gosh I hope this is intelligible. 
 
-gamelist = ["\"indie games\"","\"oldschool pvp\"","\"online pvp\"","\"new moba\"","\"online battle arena\""]
-gamelist = gamelist + ["pc pvp", "pc steam pvp", "fantasy pvp"]
-gamelist = gamelist + ["\"wow pvp\"", "\"wow classic\"", "\"vanilla pvp\"", "\"wow arena\""]
-gamelist = gamelist + ["\"gw2 pvp\"", "\"guild wars pvp\"", "\"guild wars 2 pvp\"", "\"gw2 pvp\""]
-gamelist = gamelist + ["bloodline champions", "battlerite", "blast out", "Bloodsports TV", "Bierzerkers", "Lawbreakers"]
-gamelist = gamelist + ["gigantic", "Overpower", "Paragon"]
+gamelist = []#["\"indie games\"","\"oldschool pvp\"","\"online pvp\"","\"new moba\"","\"online battle arena\""]
+#gamelist = gamelist + ["pc pvp", "pc steam pvp", "fantasy pvp"]
+#gamelist = gamelist + ["\"wow pvp\"", "\"wow classic\"", "\"vanilla pvp\"", "\"wow arena\""]
+#gamelist = gamelist + ["\"gw2 pvp\"", "\"guild wars pvp\"", "\"guild wars 2 pvp\"", "\"gw2 pvp\""]
+#gamelist = gamelist + ["bloodline champions", "battlerite", "blast out", "Bloodsports TV", "Bierzerkers", "gigantic", "Overpower", "Lawbreakers"]
+gamelist = gamelist + ["Paragon"]
 
 #gamelist = ["test"]
 
 p = Palantir()
-searchterms = p.createSearchTerms(gamelist)
-numPages = 10
 
-start = time.time()
 i = 0.0
-N = len(searchterms)
+N = len(gamelist)
+start = time.time()
+for game in gamelist:
+    
+    searchterms = p.createSearchTerms(game)
+    numPages = 10
 
-for x in searchterms:
-    print "Searching for " + x
-    p.openSearch(x, numPages)
+    print "Beginning Searches for " + game
+    for x in searchterms:
+        currentEntries = p.numEntries()
+        print "Searching for " + x
+        p.openSearch(x, numPages)
+        if currentEntries == p.numEntries():
+            print "Not worth continuing searching for ", game
+            break
+        
     i = i + 1
     progress = i / N
     print "Progress: ", progress * 100.0, "%"
