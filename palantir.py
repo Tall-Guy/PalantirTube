@@ -12,18 +12,19 @@ class Palantir:
     
     
 # This is entirely optional and you can skip this.
-    def createSearchTerms(self,game):
+    def createSearchTerms(self,game,country):
         searchTerms = []
         # game = game + " game"
-        searchTerms.append(game + " gameplay")
-        searchTerms.append(game + " top")
-        searchTerms.append(game + " analysis")
-        searchTerms.append(game + " best plays")
-        searchTerms.append(game + " review")
-        searchTerms.append(game + " first look")
-        searchTerms.append(game + " let's play")
-        searchTerms.append(game + " impressions")
-        searchTerms.append(game + " quick look")
+        # searchTerms.append(game + " gameplay")
+        searchTerms.append(country + " " + game)
+        #searchTerms.append(country + " " + game + " top")
+        #searchTerms.append(country + " " + game + " analysis")
+        #searchTerms.append(country + " " + game + " best plays")
+        #searchTerms.append(country + " " + game + " review")
+        #searchTerms.append(country + " " + game + " first look")
+        #searchTerms.append(country + " " + game + " let's play")
+        #searchTerms.append(country + " " + game + " impressions")
+        #searchTerms.append(country + " " + game + " quick look")
         # searchTerms.append(game)
         # searchTerms.append(game + " longplay")
         # searchTerms.append(game + " tutorial")
@@ -43,8 +44,6 @@ class Palantir:
         
 # Main function.
     def openSearch(self,searchterm,numPages):
-        # Initialize Selenium Driver.
-        self.s.noProxy()
         # Open youtube and search for keyword provided.
         url = "https://www.youtube.com/results?q=" + searchterm + "&sp=CAMSBAgFEAE%253D";
         
@@ -108,45 +107,56 @@ class Palantir:
 # if you want two words together enclose them in \" \"
 # Gosh I hope this is intelligible. 
 
-gamelist = []#["\"indie games\"","\"oldschool pvp\"","\"online pvp\"","\"new moba\"","\"online battle arena\""]
+gamelist = [];
+gamelist = ["pvp", "\"online arena\"", "wow", "lineage", "moba", "\"guild wars\"", "battlerite", "\"blast out\"", "\"indie games\"", "paragon", "\"bloodline champions\"", "\"bloodsports TV\"", "gigantic", "overpower", "lawbreakers", "\"pc games\""]
+#gamelist = ["\"indie games\"","\"oldschool pvp\"","\"online pvp\"","\"new moba\"","\"online battle arena\""]
 #gamelist = gamelist + ["pc pvp", "pc steam pvp", "fantasy pvp"]
 #gamelist = gamelist + ["\"wow pvp\"", "\"wow classic\"", "\"vanilla pvp\"", "\"wow arena\""]
 #gamelist = gamelist + ["\"gw2 pvp\"", "\"guild wars pvp\"", "\"guild wars 2 pvp\"", "\"gw2 pvp\""]
 #gamelist = gamelist + ["bloodline champions", "battlerite", "blast out", "Bloodsports TV", "Bierzerkers", "gigantic", "Overpower", "Lawbreakers"]
-gamelist = gamelist + ["Paragon"]
+# gamelist = gamelist + ["Paragon"]
 
 #gamelist = ["test"]
 
 p = Palantir()
+# Initialize Selenium Driver.
+p.s.noProxy()
+
+countries = []
+# countries.append("")
+countries.append("greek")
 
 i = 0.0
-N = len(gamelist)
+N = len(gamelist) * len(countries)
 start = time.time()
-for game in gamelist:
+for country in countries:
     
-    searchterms = p.createSearchTerms(game)
-    numPages = 10
-
-    print "Beginning Searches for " + game
-    for x in searchterms:
-        currentEntries = p.numEntries()
-        print "Searching for " + x
-        p.openSearch(x, numPages)
-        if currentEntries == p.numEntries():
-            print "Not worth continuing searching for ", game
-            break
+    print "Beginning Searches for " + country
+    for game in gamelist:
         
-    i = i + 1
-    progress = i / N
-    print "Progress: ", progress * 100.0, "%"
-    now = time.time()
-    elapsed = now - start
-    elapsedSTR = str(datetime.timedelta(seconds=elapsed))
-    print "Time Elapsed: ", elapsedSTR.split(".")[0]
-    estimatedTotal = elapsed / progress
-    remaining = estimatedTotal - elapsed
-    eta = str(datetime.timedelta(seconds=remaining))
-    print "ETA: ", eta.split(".")[0]
+        searchterms = p.createSearchTerms(game, country)
+        numPages = 10
+
+        print "Beginning Searches for ", country, " ", game
+        for x in searchterms:
+            currentEntries = p.numEntries()
+            print "Searching for " + x
+            p.openSearch(x, numPages)
+            if currentEntries == p.numEntries():
+                print "Not worth continuing searching for ", game
+                break
+            
+        i = i + 1
+        progress = i / N
+        print "Progress: ", progress * 100.0, "%"
+        now = time.time()
+        elapsed = now - start
+        elapsedSTR = str(datetime.timedelta(seconds=elapsed))
+        print "Time Elapsed: ", elapsedSTR.split(".")[0]
+        estimatedTotal = elapsed / progress
+        remaining = estimatedTotal - elapsed
+        eta = str(datetime.timedelta(seconds=remaining))
+        print "ETA: ", eta.split(".")[0]
 
 print "Done!"
     
